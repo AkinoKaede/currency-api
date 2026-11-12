@@ -181,6 +181,16 @@ currency-api export-currency-api --provider jcb-jpy --data-dir rates-data
 
 GitHub Actions 中分别运行 `Fetch Mastercard`、`Fetch Visa`、`Fetch UnionPay`、`Fetch JCB` 工作流，成功数据发布到 `data` 分支。工作流使用 GitHub 自动提供的 `github.token`，不要求额外填写个人 Token；公开文件的 jsDelivr 和 GMPay 读取也不需要 Token。本地手动发布需要已有 Git 仓库、远端与 GitHub 认证，`--publish` 会推送到指定数据分支，数据目录必须为空。
 
+`Fetch Mastercard` 在启动并行分片前，先逐日抽查 CNY→USD、USD→CNY、EUR→USD 的官方 `fxDate`。若返回日期与请求日期不一致，准备任务立即失败，后续分片、补采和发布均不会启动；不会自动把旧数据标成当天，也不会静默改查其他日期。可以稍后重试，或明确指定已发布的较早日期。预检只验证样本，完整采集仍会校验每个币对。失败证据保存在 `mastercard-preflight-*` artifact 中。
+
+本地运行 `fetch` / `fetch-shard` 前也可先执行日期预检（这些命令不会自动调用预检）：
+
+```sh
+currency-api preflight --provider mastercard --start-date 2026-11-11
+```
+
+分片采集每完成 25 次币对尝试、或一次请求完成后距上次报告超过 30 秒时输出进度，包括成功数量、尝试次数、未解决错误数、补采轮次和耗时。等待单次网络请求或重试期间可能暂时没有新输出。
+
 月包、年包、归档下载及归档校验命令已移除，不再调用 GitHub Releases API，也不再运行归档定时工作流。
 
 ## 原始汇率与每日数据

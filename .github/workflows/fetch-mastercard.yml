@@ -27,6 +27,9 @@ on:
 permissions:
   contents: write
 
+env:
+  PYTHONUNBUFFERED: '1'
+
 concurrency:
   group: fetch-mastercard
   queue: max
@@ -78,6 +81,24 @@ jobs:
               out.write("matrix=" + json.dumps(matrix) + "\n")
           print(f"Plan: {first} through {last}; {count} shards")
           PY
+      - name: Check requested Mastercard dates before starting shards
+        env:
+          START_DATE: ${{ steps.plan.outputs.start }}
+          END_DATE: ${{ steps.plan.outputs.end }}
+        run: |
+          python -m exchange_rates preflight \
+            --provider mastercard \
+            --start-date "$START_DATE" \
+            --end-date "$END_DATE" \
+            --diagnostics-dir "$RUNNER_TEMP/preflight-diagnostics"
+      - name: Upload preflight diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: mastercard-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/preflight-diagnostics
+          if-no-files-found: warn
+          retention-days: 7
 
   shard:
     needs: prepare

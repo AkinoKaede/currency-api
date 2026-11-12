@@ -15,7 +15,8 @@ from .diagnostics import Diagnostics
 from .http import HttpClient
 from .models import json_bytes
 from .providers import (
-    JcbUnavailableError, fetch_day, fetch_shard, merge_shards, prepare_catalog, provider_ids,
+    JcbUnavailableError, fetch_day, fetch_shard, merge_shards, preflight_mastercard,
+    prepare_catalog, provider_ids,
 )
 from .publishing import BranchPublisher, write_summary
 from .rate_control import finite_seconds
@@ -101,6 +102,12 @@ def load_shard_bundles(root: Path, provider: str, target: date) -> list[dict]:
 def parser() -> argparse.ArgumentParser:
     command = argparse.ArgumentParser(description="Manual official exchange-rate collection")
     commands = command.add_subparsers(dest="command", required=True)
+    preflight = commands.add_parser(
+        "preflight", help="Check Mastercard rate dates before full collection")
+    preflight.add_argument("--provider", choices=("mastercard",), required=True)
+    preflight.add_argument("--start-date", default="")
+    preflight.add_argument("--end-date", default="")
+    preflight.add_argument("--config", type=Path)
     collect = commands.add_parser("fetch", help="Collect an inclusive date range in one process")
     collect.add_argument("--provider", choices=provider_ids(), required=True)
     collect.add_argument("--start-date", default="")
@@ -135,7 +142,7 @@ def parser() -> argparse.ArgumentParser:
         subcommand.add_argument("--data-dir", type=Path, default=Path("rates-data"))
         subcommand.add_argument("--stablecoins-config", type=Path,
                                 help="USD-parity registry; defaults to bundled config/stablecoins.json")
-    for subcommand in (collect, shard, merge):
+    for subcommand in (collect, shard, merge, preflight):
         subcommand.add_argument("--diagnostics-dir", type=Path, default=Path("diagnostics"))
     for subcommand in (collect, merge):
         subcommand.add_argument("--publish", action="store_true")
@@ -178,7 +185,8 @@ def _run_shard(config: dict, args: argparse.Namespace, diagnostics: Diagnostics,
             client.records.clear()
             try:
                 bundle = fetch_shard(provider, target, config["providers"][provider],
-                                     client, index, count)
+                                     client, index, count,
+                                     progress=lambda message: print(message, flush=True))
             except Exception as exc:
                 entry = diagnostics.failure(provider, target.isoformat(), exc,
                                             client.records)
@@ -245,6 +253,23 @@ def execute(args: argparse.Namespace, diagnostics: Diagnostics | None = None) ->
         return 0
     config = load_config(args.config)
     first, last = dates(args.start_date, args.end_date)
+    if args.command == "preflight":
+        settings = http_settings(config, args)
+        # This is an availability probe, not an exhaustive recovery attempt.
+        settings["timeout"] = min(settings.get("timeout", 30), 10)
+        settings["retries"] = min(settings.get("retries", 3), 1)
+        with HttpClient(**settings) as client:
+            diagnostics.records = client.records
+            target = first
+            while target <= last:
+                args._diagnostic_target = target.isoformat()
+                print(f"Checking Mastercard rate date {target}", flush=True)
+                preflight_mastercard(target, config["providers"]["mastercard"], client)
+                print(f"READY {target}: 3 sample pairs have matching rate dates", flush=True)
+                if target == last:
+                    break
+                target += timedelta(days=1)
+        return 0
     if args.command == "fetch-shard":
         # Shard jobs never write published data; they only stage bundle files.
         return _run_shard(config, args, diagnostics, first, last,

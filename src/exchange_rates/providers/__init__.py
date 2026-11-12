@@ -278,7 +278,8 @@ def _date_fields(provider: str, body_text: str) -> dict[str, Any]:
 
 def fetch_shard(provider: str, target: date, config: Mapping[str, Any],
                 client: HttpClient, shard_index: int,
-                shard_count: int = SHARD_COUNT) -> dict[str, Any]:
+                shard_count: int = SHARD_COUNT, *,
+                progress: Callable[[str], None] | None = None) -> dict[str, Any]:
     """Collect one currency shard in a single serial transport stream.
 
     Each shard owns its own process and egress address, so one serial stream
@@ -307,10 +308,26 @@ def fetch_shard(provider: str, target: date, config: Mapping[str, Any],
     dates: list[dict[str, Any]] = []
     rounds = 0
     initial_failed = 0
+    started = last_progress = time.monotonic()
+
+    def report(round_index: int) -> None:
+        nonlocal last_progress
+        last_progress = time.monotonic()
+        if progress is not None:
+            progress(
+                f"{provider} {target} shard {shard_index + 1}/{shard_count}: "
+                f"round {round_index + 1}/{_recovery_rounds(config) + 1}; "
+                f"{len(successful)}/{len(expected)} pairs complete; "
+                f"{len(raw_shard['attempts'])} attempts; "
+                f"{len(errors)} unresolved errors; "
+                f"elapsed {last_progress - started:.0f}s"
+            )
+
     for round_index in range(_recovery_rounds(config) + 1):
         pending = [pair for pair in expected if pair not in successful]
         if not pending:
             break
+        report(round_index)
         for spend, home in pending:
             start = len(client.records)
             fallback: list[dict[str, Any]] = []
@@ -360,6 +377,9 @@ def fetch_shard(provider: str, target: date, config: Mapping[str, Any],
             raw_shard["attempts"].append({
                 "pair": [spend, home], "round": round_index, "error": error,
             })
+            if len(raw_shard["attempts"]) % 25 == 0 or time.monotonic() - last_progress >= 30:
+                report(round_index)
+        report(round_index)
         if round_index == 0:
             initial_failed = sum(1 for pair in expected if pair not in successful)
         else:
@@ -908,6 +928,30 @@ def _query_pair(provider: str, target: date, spend: str, home: str,
         f"Mastercard {spend}/{home}: edge verification incomplete, "
         f"{len(stale)}/{len(resolution.addresses)} non-matching rate dates; "
         f"DNS complete={resolution.complete}; {details}")
+
+
+def preflight_mastercard(target: date, config: Mapping[str, Any],
+                        client: HttpClient) -> None:
+    """Check a few dated quotes before starting the full currency matrix.
+
+    Use the normal endpoint without regional recovery. A stale sample stops
+    this run; it never silently changes the requested date or publishes data.
+    """
+    endpoint, headers = _settings("mastercard", config)
+    for spend, home in (("CNY", "USD"), ("USD", "CNY"), ("EUR", "USD")):
+        try:
+            _, response = _query_pair(
+                "mastercard", target, spend, home, endpoint, headers, client)
+            values = _object(response.data.get("data"), "Mastercard data")
+            if "fxDate" not in values:
+                raise ProviderError("Mastercard preflight requires an explicit fxDate")
+            _check_dates("mastercard", target, {"fxDate": values["fxDate"]})
+        except DateMismatchError as exc:
+            raise DateMismatchError(
+                f"Mastercard date preflight failed for {target} ({spend}/{home}): "
+                f"{exc}. Full collection was not started. Retry later or explicitly "
+                "request an earlier date; the requested date was not changed."
+            ) from exc
 
 
 def _pair_response(provider: str, target: date, spend: str, home: str,

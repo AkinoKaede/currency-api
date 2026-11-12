@@ -19,6 +19,9 @@ on:
 permissions:
   contents: read
 
+env:
+  PYTHONUNBUFFERED: '1'
+
 jobs:
   shard:
     runs-on: ubuntu-latest
