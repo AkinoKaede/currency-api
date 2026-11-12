@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "currency-api"
+version = "0.1.0"
+description = "Card-network exchange rates with GMPay-compatible stablecoin pricing"
+requires-python = ">=3.11"
+license = "AGPL-3.0-only"
+dependencies = ["curl_cffi>=0.13,<0.16", "dnspython>=2.8,<3", "simplejson>=3.20,<4"]
+
+[project.scripts]
+currency-api = "exchange_rates.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+"share/currency-api" = ["config/providers.json", "config/stablecoins.json"]

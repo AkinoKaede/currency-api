@@ -1,0 +1,531 @@
+{
+  "schema_version": 1,
+  "policy": "fixed_usd_parity",
+  "reference_date": "2026-11-12",
+  "references": [
+    "https://stablecoins.llama.fi/stablecoins?includePrices=true",
+    "https://docs.usdt0.to/",
+    "https://www.circle.com/blog/bridged-usdc-standard",
+    "https://help.coinbase.com/en/coinbase/getting-started/crypto-education/usd-base-coin"
+  ],
+  "notes": [
+    "This is an explicit pricing allowlist, not live market-price data or a list of supported payment contracts.",
+    "Disabled entries require an explicit business decision before enabling fixed USD parity.",
+    "Ambiguous symbols use issuer-qualified keys; GYD remains a fiat currency."
+  ],
+  "coins": {
+    "aegis-yusd": {
+      "name": "Aegis YUSD",
+      "defillama_id": "255"
+    },
+    "apxusd": {
+      "name": "apxUSD",
+      "defillama_id": "354"
+    },
+    "astherus-usdf": {
+      "name": "Astherus",
+      "defillama_id": "219"
+    },
+    "ausd": {
+      "name": "Agora Dollar",
+      "defillama_id": "205"
+    },
+    "avalon-usda": {
+      "name": "Avalon USDa",
+      "defillama_id": "220"
+    },
+    "avusd": {
+      "name": "Avant USD",
+      "defillama_id": "271"
+    },
+    "axis-usdx": {
+      "name": "Axis USD",
+      "defillama_id": "442"
+    },
+    "bold": {
+      "name": "Liquity BOLD",
+      "defillama_id": "269"
+    },
+    "btcusd": {
+      "name": "Bitcoin USD",
+      "defillama_id": "183"
+    },
+    "buck": {
+      "name": "Bucket Protocol BUCK Stablecoin",
+      "defillama_id": "154"
+    },
+    "busd": {
+      "name": "Binance USD",
+      "defillama_id": "4",
+      "enabled": false
+    },
+    "cash": {
+      "name": "CASH",
+      "defillama_id": "316"
+    },
+    "cdxusd": {
+      "name": "Cod3x USD",
+      "defillama_id": "418"
+    },
+    "crvusd": {
+      "name": "crvUSD",
+      "defillama_id": "110"
+    },
+    "ctusd": {
+      "name": "Citrea USD",
+      "defillama_id": "350"
+    },
+    "dai": {
+      "name": "Dai",
+      "defillama_id": "5"
+    },
+    "delpho-usdv": {
+      "name": "Delpho USDV",
+      "defillama_id": "431"
+    },
+    "dforce-usx": {
+      "name": "dForce USD",
+      "defillama_id": "44"
+    },
+    "dinari-usd-plus": {
+      "name": "Dinari USD+",
+      "defillama_id": "465"
+    },
+    "djed": {
+      "name": "Djed StableCoin",
+      "defillama_id": "93",
+      "enabled": false
+    },
+    "dkusd": {
+      "name": "Dakota USD",
+      "defillama_id": "474"
+    },
+    "dlusd": {
+      "name": "Deel USD",
+      "defillama_id": "440"
+    },
+    "doc": {
+      "name": "Dollar on Chain",
+      "defillama_id": "30"
+    },
+    "dola": {
+      "name": "Dola",
+      "defillama_id": "15"
+    },
+    "dusd": {
+      "name": "StandX DUSD",
+      "defillama_id": "252"
+    },
+    "eusd": {
+      "name": "Electronic USD",
+      "defillama_id": "106"
+    },
+    "fdusd": {
+      "name": "First Digital USD",
+      "defillama_id": "119"
+    },
+    "fei": {
+      "name": "Fei USD",
+      "defillama_id": "9",
+      "enabled": false
+    },
+    "feusd": {
+      "name": "Felix feUSD",
+      "defillama_id": "251"
+    },
+    "fidd": {
+      "name": "Fidelity Digital Dollar",
+      "defillama_id": "348"
+    },
+    "frax-legacy": {
+      "name": "Frax",
+      "defillama_id": "6",
+      "enabled": false
+    },
+    "frxusd": {
+      "name": "Frax USD",
+      "defillama_id": "235"
+    },
+    "ftusd": {
+      "name": "Flying Tulip USD",
+      "defillama_id": "421"
+    },
+    "fusd": {
+      "name": "FinChain Dollar",
+      "defillama_id": "390"
+    },
+    "fxusd": {
+      "name": "fxUSD",
+      "defillama_id": "168"
+    },
+    "gate-usd": {
+      "name": "Gate USD",
+      "defillama_id": "306"
+    },
+    "gho": {
+      "name": "GHO",
+      "defillama_id": "118"
+    },
+    "gusd": {
+      "name": "Gemini Dollar",
+      "defillama_id": "19"
+    },
+    "gyroscope-gyd": {
+      "name": "Gyroscope GYD",
+      "defillama_id": "185"
+    },
+    "hermetica-usdh": {
+      "name": "Hermetica USDh",
+      "defillama_id": "242"
+    },
+    "hex-trust-usdx": {
+      "name": "Hex Trust USDX",
+      "defillama_id": "263"
+    },
+    "hollar": {
+      "name": "Hydrated Dollar",
+      "defillama_id": "312"
+    },
+    "hubble-usdh": {
+      "name": "USDH",
+      "defillama_id": "65"
+    },
+    "iusd": {
+      "name": "infiniFi USD",
+      "defillama_id": "298"
+    },
+    "jupusd": {
+      "name": "JupUSD",
+      "defillama_id": "335"
+    },
+    "lavausd": {
+      "name": "LavaUSD",
+      "defillama_id": "471"
+    },
+    "lisusd": {
+      "name": "Lista USD",
+      "defillama_id": "79"
+    },
+    "lusd": {
+      "name": "Liquity USD",
+      "defillama_id": "8"
+    },
+    "m": {
+      "name": "M by M0",
+      "defillama_id": "213"
+    },
+    "mezo-musd": {
+      "name": "Mezo USD",
+      "defillama_id": "303"
+    },
+    "mgusd": {
+      "name": "MoneyGram USD",
+      "defillama_id": "469"
+    },
+    "mnee": {
+      "name": "MNEE USD",
+      "defillama_id": "284"
+    },
+    "moveusd": {
+      "name": "CFX MoveUSD",
+      "defillama_id": "389"
+    },
+    "musd": {
+      "name": "Metamask USD",
+      "defillama_id": "313"
+    },
+    "noon-usn": {
+      "name": "Noon USN",
+      "defillama_id": "230"
+    },
+    "open-usd": {
+      "name": "Open USD",
+      "defillama_id": "443"
+    },
+    "ousd": {
+      "name": "Origin Dollar",
+      "defillama_id": "23"
+    },
+    "palm-pusd": {
+      "name": "Palm USD",
+      "defillama_id": "314"
+    },
+    "plume-pusd": {
+      "name": "Plume USD",
+      "defillama_id": "266"
+    },
+    "pyusd": {
+      "name": "PayPal USD",
+      "defillama_id": "120"
+    },
+    "reusd": {
+      "name": "Resupply USD",
+      "defillama_id": "256"
+    },
+    "rlusd": {
+      "name": "Ripple USD",
+      "defillama_id": "250"
+    },
+    "rwausd": {
+      "name": "Multipli rwaUSD",
+      "defillama_id": "432"
+    },
+    "satusd": {
+      "name": "River Stablecoin",
+      "defillama_id": "218"
+    },
+    "sofid": {
+      "name": "SoFiUSD",
+      "defillama_id": "430"
+    },
+    "solomon-usdv": {
+      "name": "Solomon USDv",
+      "defillama_id": "261"
+    },
+    "spusd": {
+      "name": "SoulPeg USD",
+      "defillama_id": "413"
+    },
+    "squsd": {
+      "name": "Squads USD",
+      "defillama_id": "466"
+    },
+    "stables-usdr": {
+      "name": "USDR",
+      "defillama_id": "435"
+    },
+    "stablr-usd": {
+      "name": "StablR USD",
+      "defillama_id": "240"
+    },
+    "streamflow-usd-plus": {
+      "name": "Streamflow USD+",
+      "defillama_id": "426"
+    },
+    "suiusde": {
+      "name": "eSui Dollar",
+      "defillama_id": "376"
+    },
+    "susd": {
+      "name": "sUSD",
+      "defillama_id": "22",
+      "enabled": false
+    },
+    "trusd": {
+      "name": "Tori trUSD",
+      "defillama_id": "401"
+    },
+    "tusd": {
+      "name": "TrueUSD",
+      "defillama_id": "7"
+    },
+    "u": {
+      "name": "United Stables",
+      "defillama_id": "336"
+    },
+    "unitas-usdu": {
+      "name": "Unitas",
+      "defillama_id": "283"
+    },
+    "usat": {
+      "name": "USAT",
+      "defillama_id": "343"
+    },
+    "usd-plus": {
+      "name": "Overnight USD+",
+      "defillama_id": "46"
+    },
+    "usd0": {
+      "name": "Usual USD",
+      "defillama_id": "195"
+    },
+    "usd1": {
+      "name": "World Liberty Financial USD",
+      "defillama_id": "262"
+    },
+    "usda": {
+      "name": "Anzens USDA",
+      "defillama_id": "245"
+    },
+    "usdai": {
+      "name": "USD.AI",
+      "defillama_id": "309"
+    },
+    "usdat": {
+      "name": "Saturn Dollar",
+      "defillama_id": "400"
+    },
+    "usdb": {
+      "name": "USDB Blast",
+      "defillama_id": "172"
+    },
+    "usdbc": {
+      "name": "USD Base Coin (bridged USDC)",
+      "reference": "https://help.coinbase.com/en/coinbase/getting-started/crypto-education/usd-base-coin"
+    },
+    "usdbridge-usdb": {
+      "name": "USDBridge",
+      "defillama_id": "439"
+    },
+    "usdc": {
+      "name": "USD Coin",
+      "defillama_id": "2"
+    },
+    "usdc.e": {
+      "name": "Bridged USDC",
+      "reference": "https://www.circle.com/blog/bridged-usdc-standard"
+    },
+    "usdcbl": {
+      "name": "Decibel Dollar",
+      "defillama_id": "468"
+    },
+    "usdcv": {
+      "name": "USD CoinVertible",
+      "defillama_id": "307"
+    },
+    "usdd": {
+      "name": "USDD",
+      "defillama_id": "14"
+    },
+    "usde": {
+      "name": "Ethena USDe",
+      "defillama_id": "146"
+    },
+    "usdf": {
+      "name": "Falcon USD",
+      "defillama_id": "246"
+    },
+    "usdg": {
+      "name": "Global Dollar",
+      "defillama_id": "286"
+    },
+    "usdgo": {
+      "name": "USDGO",
+      "defillama_id": "347"
+    },
+    "usdh": {
+      "name": "USDH Stablecoin",
+      "defillama_id": "321"
+    },
+    "usdj": {
+      "name": "USDJ",
+      "defillama_id": "37"
+    },
+    "usdk": {
+      "name": "USDK",
+      "defillama_id": "27"
+    },
+    "usdkg": {
+      "name": "USDKG",
+      "defillama_id": "409"
+    },
+    "usdl": {
+      "name": "Lift Dollar",
+      "defillama_id": "244"
+    },
+    "usdm": {
+      "name": "USDM",
+      "defillama_id": "132"
+    },
+    "usdon": {
+      "name": "Ondo U.S. Dollar Token",
+      "defillama_id": "408"
+    },
+    "usdp": {
+      "name": "Pax Dollar",
+      "defillama_id": "11"
+    },
+    "usdpt": {
+      "name": "Western Union USDPT",
+      "defillama_id": "386"
+    },
+    "usdq": {
+      "name": "Quantoz USDQ",
+      "defillama_id": "275"
+    },
+    "usdrif": {
+      "name": "RIF US Dollar",
+      "defillama_id": "159"
+    },
+    "usds": {
+      "name": "Sky Dollar",
+      "defillama_id": "209"
+    },
+    "usdsc": {
+      "name": "Startale USD",
+      "defillama_id": "420"
+    },
+    "usdso": {
+      "name": "USD Somnia",
+      "defillama_id": "378"
+    },
+    "usdst": {
+      "name": "USDST",
+      "defillama_id": "391"
+    },
+    "usdsui": {
+      "name": "Sui Dollar",
+      "defillama_id": "373"
+    },
+    "usdt": {
+      "name": "Tether",
+      "defillama_id": "1"
+    },
+    "usdt0": {
+      "name": "USDT0",
+      "reference": "https://docs.usdt0.to/"
+    },
+    "usdtb": {
+      "name": "Ethena USDtb",
+      "defillama_id": "221"
+    },
+    "usdu": {
+      "name": "Universal USD",
+      "defillama_id": "410"
+    },
+    "usdv": {
+      "name": "Verified USD",
+      "defillama_id": "143"
+    },
+    "uspd": {
+      "name": "US Permissionless Dollar",
+      "defillama_id": "315"
+    },
+    "usx": {
+      "name": "Solstice USX",
+      "defillama_id": "310"
+    },
+    "uusd": {
+      "name": "Unity USD",
+      "defillama_id": "407"
+    },
+    "vai": {
+      "name": "Vai",
+      "defillama_id": "28"
+    },
+    "valtorum-usdv": {
+      "name": "Valtorum USD",
+      "defillama_id": "398"
+    },
+    "veem-usdv": {
+      "name": "Veem USD",
+      "defillama_id": "473"
+    },
+    "xusd": {
+      "name": "StraitsX XUSD",
+      "defillama_id": "290"
+    },
+    "yusd": {
+      "name": "YUSD Stablecoin",
+      "defillama_id": "13"
+    },
+    "yzusd": {
+      "name": "Yuzu USD",
+      "defillama_id": "344"
+    },
+    "zusd": {
+      "name": "ZUSD",
+      "defillama_id": "43"
+    }
+  }
+}
